@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    
+
+    <div class="container">
+        <div class="weather-input">
+            <div class="input-group">
+                <input type="text" id="userlocation" placeholder="Search for place">
+                <select class="converter" id="converter">
+                    <option>°C</option>
+                    <option>°F</option>
+                </select>
+                <i class="fa-solid fa-location-dot" id="geo-icon"></i> 
+                <i class="fa-solid fa-magnifying-glass" onclick="getUserLocation()"></i>
+            </div>
+            
+            <div id="error-message" style="color: red; display: none;"></div>
+            <div class="weatherIcon"></div>
+            <h2 class="temperature"></h2>
+            <div class="feelslike"></div>
+            <div class="description"></div>
+            <hr />
+            <div class="date"></div>
+            <div class="city"></div>
+        </div>
+
+        <div class="weather-output">
+
+            <h2 class="heading">Today's Highlights</h2>
+
+            <div class="highlights">
+                <div class="humidity">
+                    Humidity<i class="fas fa-water"></i>
+                    <h1 id="Hvalue"></h1>
+                </div>
+
+                <div class="wind-speed">
+                    Wind Speed<i class="fa-solid fa-wind"></i>
+                    <h1 id="Wvalue"></h1>
+                </div>
+
+                <div class="sun"> 
+                    Sunrise<i class="fa-solid fa-sun"></i>
+                    <h1 id="SRvalue"></h1>
+                </div>  
+                <div class="sun">
+                    Sunset<i class="fa-regular fa-sun"></i>
+                    <h1 id="SSvalue"></h1>
+                </div>
+
+                <div class="clouds">
+                    Clouds<i class="fa-solid fa-cloud"></i>
+                    <h1 id="Cvalue"></h1>
+                </div>
+                
+                <div class="Pressure">
+                    Pressure<i class="fa-solid fa-volcano"></i>
+                    <h1 id="Pvalue"></h1>
+                </div>
+            </div>
+            <br>
+            <h2 class="heading">This Week</h2>
+            <div class="forecast">
+
+            </div>
+        </div>
+    </div>
+ 
+    <script src="script.js"></script>
+</body>
+</html>
