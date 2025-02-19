@@ -13,9 +13,9 @@ const sunsetElement = document.getElementById("SSvalue");
 const cloudsElement = document.getElementById("Cvalue");
 const pressureElement = document.getElementById("Pvalue");
 const unitSelect = document.getElementById("converter");
-const errorMessage = document.getElementById("error-message"); 
+const errorMessage = document.getElementById("error-message");
 const forecastContainer = document.querySelector(".forecast");
-const apiKey = "936a8fe4b67e57d5c9aa7ff10e887460"; 
+const apiKey = "936a8fe4b67e57d5c9aa7ff10e887460";
 
 // Function for fetching weather data
 async function getWeatherData(city) {
@@ -60,10 +60,9 @@ function displayWeatherData(data) {
     feelslikeElement.innerHTML = `Feels Like: ${feelsLike.toFixed(1)}${selectedUnit}`;
     descriptionElement.innerHTML = description.charAt(0).toUpperCase() + description.slice(1);
 
-    const currentDate = new Date();
-    dateElement.innerHTML = `${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}`;
-    cityElement.innerHTML = `${data.name}, ${data.sys.country}`;
+    updateTime();
 
+    cityElement.innerHTML = `${data.name}, ${data.sys.country}`;
     humidityElement.innerHTML = `${data.main.humidity}%`;
     windSpeedElement.innerHTML = `${data.wind.speed} m/s`;
     sunriseElement.innerHTML = "Sunrise " + new Date(data.sys.sunrise * 1000).toLocaleTimeString();
@@ -75,7 +74,7 @@ function displayWeatherData(data) {
 // Function to display the 5-day forecast
 function displayForecast(data) {
     forecastContainer.innerHTML = "";
-    const forecastList = data.list.filter((item, index) => index % 8 === 0); 
+    const forecastList = data.list.filter((item, index) => index % 8 === 0);
     const selectedUnit = unitSelect.value;
 
     forecastList.forEach((forecast) => {
@@ -101,7 +100,13 @@ function displayForecast(data) {
     });
 }
 
-// Event listeners
+function updateTime() {
+    const currentDate = new Date();
+    dateElement.innerHTML = `${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}`;
+}
+
+setInterval(updateTime, 1000);
+
 document.querySelector(".fa-magnifying-glass").addEventListener("click", () => {
     const city = userLocationInput.value;
     if (city) getWeatherData(city);
@@ -120,12 +125,21 @@ userLocationInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") getWeatherData(userLocationInput.value);
 });
 
+// Geolocation and reverse geocoding logic
 document.getElementById("geo-icon").addEventListener("click", () => {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
-            (position) => {
+            async (position) => {
                 const { latitude, longitude } = position.coords;
-                fetchWeatherByCoords(latitude, longitude);
+                await fetchWeatherByCoords(latitude, longitude);
+                
+                // Fetching the city name using reverse geocoding
+                const geoResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`);
+                const geoData = await geoResponse.json();
+                const city = geoData.name;
+                
+                // city name in the input field
+                userLocationInput.value = city;
             },
             (error) => {
                 errorMessage.style.display = "block";
@@ -157,7 +171,7 @@ async function fetchWeatherByCoords(lat, lon) {
     }
 }
 
-// Initial setup
+// Default location set to Mumbai
 document.addEventListener("DOMContentLoaded", () => {
     userLocationInput.value = "Mumbai";
     getWeatherData("Mumbai");
