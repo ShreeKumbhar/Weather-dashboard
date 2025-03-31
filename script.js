@@ -15,7 +15,7 @@ const pressureElement = document.getElementById("Pvalue");
 const unitSelect = document.getElementById("converter");
 const errorMessage = document.getElementById("error-message");
 const forecastContainer = document.querySelector(".forecast");
-const apiKey = "936a8fe4b67e57d5c9aa7ff10e887460";
+const apiKey = {YOUR API KEY};
 
 // Function for fetching weather data
 async function getWeatherData(city) {
